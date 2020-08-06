@@ -1,38 +1,63 @@
-import React from "react"
+import React, { FunctionComponent } from "react"
 
 import "./styles.css"
 
 import whatsappIcon from "../../assets/images/icons/whatsapp.svg";
+import api from "../../services/api";
 
-const TeacherItem = () => {
+export interface Teacher {
+  avatar: string
+  bio: string
+  cost: number
+  id: number
+  name: string
+  subject: string
+  whatsapp: string
+}
+
+interface TeacherItemProps {
+  teacher: Teacher
+}
+
+const TeacherItem: FunctionComponent<TeacherItemProps> = ({ teacher }) => {
+  function createNewConnection() {
+    const payload = {
+      user_id: teacher.id
+    }
+
+    api.post("/connections", {
+      payload
+    })
+  }
+
   return (
     <article className="teacher-item">
       <header>
-        <img src="https://avatars2.githubusercontent.com/u/26799157?s=460&u=36a76d9fd2c39c0969ec7ffd203ab629acf2a8ef&v=4" alt="Avatar" />
+        <img src={teacher.avatar} alt={teacher.name} />
         <div>
-          <strong>Márcio Souza Filho</strong>
-          <span>Algoritmos</span>
+          <strong>{teacher.name}</strong>
+          <span>{teacher.subject}</span>
         </div>
       </header>
 
       <p>
-        Aliqua est cupidatat aliquip elit.
-            <br />
-        <br />
-            Ea anim ipsum exercitation proident incididunt pariatur occaecat incididunt qui irure nisi.
-            Mollit reprehenderit eiusmod ex occaecat aute quis nulla eiusmod occaecat ex et id reprehenderit.
-            Qui voluptate aliquip Lorem sit exercitation ut quis ea incididunt voluptate nulla aliquip.
-          </p>
+        {teacher.bio}
+      </p>
 
       <footer>
         <p>
           Preço/hora
-              <strong>R$ 80,00</strong>
+          <strong>R$ {teacher.cost}</strong>
         </p>
-        <button type="button">
+        <a
+          onClick={createNewConnection}
+          href={`https://wa.me/${teacher.whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src={whatsappIcon} alt="Whatsapp" />
-                Entrar em contato
-              </button>
+          Entrar em contato
+        </a>
       </footer>
     </article>
   )
