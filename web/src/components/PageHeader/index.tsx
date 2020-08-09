@@ -1,4 +1,4 @@
-import React from "react"
+import React, {FunctionComponent} from "react"
 
 import { Link } from "react-router-dom"
 
@@ -12,7 +12,7 @@ interface PageHeaderProps {
   description?: string;
 }
 
-const PageHeader: React.FunctionComponent<PageHeaderProps> = ({ title, description, children }) => {
+const PageHeader: FunctionComponent<PageHeaderProps> = ({ title, description, children }) => {
   return (
     <header className="page-header">
       <div className="top-bar-container">
